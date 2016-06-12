@@ -11,9 +11,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ring = (CountDownRing) findViewById(R.id.ring);
-        if (ring != null) {
-            ring.setSumTime(100);
-        }
+
     }
 
     @Override

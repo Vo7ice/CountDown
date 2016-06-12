@@ -11,9 +11,13 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import android.os.Handler;
+
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 public class CountDownRing extends View {
 
@@ -29,7 +33,7 @@ public class CountDownRing extends View {
     private float mCurrentAngle;//当前角度
 
     private int mCurrentTime;
-    private int sumTime = 60;
+    private int sumTime = 15000;
 
     private int mRadius;
     private int mCircleBackground;
@@ -37,6 +41,8 @@ public class CountDownRing extends View {
     private int mRingEndColor;
     private int mTextColor;
     private int mTextSize;
+
+    private static final int TIME_CHANGE = 10;
 
 
     public CountDownRing(Context context) {
@@ -156,7 +162,10 @@ public class CountDownRing extends View {
             mTextSize = (int) mTextPaint.getTextSize();
         }
         //画中心园的外接矩形，用来画圆环用
-        mRingRectF = new RectF(mCircleX - mRadius, mCircleY - mRadius, mCircleX + mRadius, mCircleY + mRadius);
+        mRingRectF = new RectF(mCircleX - mRadius + mRingPaint.getStrokeWidth(),
+                mCircleY - mRadius + mRingPaint.getStrokeWidth(),
+                mCircleX + mRadius - mRingPaint.getStrokeWidth(),
+                mCircleY + mRadius - mRingPaint.getStrokeWidth());
     }
 
     //当wrap_content的时候，view的大小根据半径大小改变，但最大不会超过屏幕
@@ -182,16 +191,27 @@ public class CountDownRing extends View {
         canvas.drawCircle(mCircleX, mCircleY, mRadius, mCirclePaint);
         //画圆环
         canvas.drawArc(mRingRectF, mStartSweepValue, mCurrentAngle, false, mRingPaint);
+        canvas.drawCircle(mCircleX, mCircleY - mRadius + mRingPaint.getStrokeWidth(), mRingPaint.getStrokeWidth()/4, mRingPaint);
         //画文字
-        canvas.drawText(String.valueOf(mCurrentTime), mCircleX, mCircleY + mTextSize / 4, mTextPaint);
+        canvas.drawText(String.valueOf(mCurrentTime / 1000), mCircleX, mCircleY + mTextSize / 4, mTextPaint);
 
-        if (mCurrentTime<sumTime) {
-            mCurrentTime+=1;
-            mCurrentAngle+=3.6;
+        if (mCurrentTime < sumTime) {
+            mCurrentTime += TIME_CHANGE;
+            mCurrentAngle += 0.24;
             //每1s重画一次
-            postInvalidateDelayed(1000);
+            postInvalidateDelayed(TIME_CHANGE);
+        }
+        if (mCurrentTime == sumTime) {
+            mCurrentTime = 0;
+            mCurrentAngle = 0;
         }
 
+    }
+
+    private float getAngle() {
+        BigDecimal bg = new BigDecimal(360 * TIME_CHANGE / sumTime);
+        float d = bg.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+        return d;
     }
 
     public int getSumTime() {
