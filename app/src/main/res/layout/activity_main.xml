@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,14 +8,18 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.cn.guojinhu.countdown.MainActivity">
+
+    <ImageView
+        android:id="@+id/image_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/CountDown" />
 
     <com.cn.guojinhu.countdown.CountDownRing
         android:id="@+id/ring"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:radius="500"
         android:layout_centerInParent="true"
-        />
+        app:radius="500" />
 </RelativeLayout>

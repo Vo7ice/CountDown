@@ -44,6 +44,10 @@ public class CountDownRing extends View {
 
     private static final int TIME_CHANGE = 10;
 
+    private onChangeListener mListener;
+    private int mIndex;
+    private int mSize;
+
 
     public CountDownRing(Context context) {
         this(context, null);
@@ -104,6 +108,7 @@ public class CountDownRing extends View {
         mRingPaint.setColor(mRingStartColor);
         mRingPaint.setStyle(Paint.Style.STROKE);
         mRingPaint.setStrokeWidth((float) (0.075 * mRadius));
+        mRingPaint.setStrokeCap(Paint.Cap.ROUND);//头部为圆形
 //        mRingPaint.setShader(new LinearGradient())
 
         //获取文字字号 保证在圆心
@@ -191,17 +196,25 @@ public class CountDownRing extends View {
         canvas.drawCircle(mCircleX, mCircleY, mRadius, mCirclePaint);
         //画圆环
         canvas.drawArc(mRingRectF, mStartSweepValue, mCurrentAngle, false, mRingPaint);
-        canvas.drawCircle(mCircleX, mCircleY - mRadius + mRingPaint.getStrokeWidth(), mRingPaint.getStrokeWidth()/4, mRingPaint);
         //画文字
         canvas.drawText(String.valueOf(mCurrentTime / 1000), mCircleX, mCircleY + mTextSize / 4, mTextPaint);
+        double a = 360 * TIME_CHANGE;
 
         if (mCurrentTime < sumTime) {
             mCurrentTime += TIME_CHANGE;
-            mCurrentAngle += 0.24;
+            mCurrentAngle += a / sumTime;
             //每1s重画一次
             postInvalidateDelayed(TIME_CHANGE);
         }
         if (mCurrentTime == sumTime) {
+            if (mListener != null) {
+                if (mIndex < mSize) {
+                    mIndex++;
+                } else {
+                    mIndex = 0;
+                }
+                mListener.onChangeImage(mIndex);
+            }
             mCurrentTime = 0;
             mCurrentAngle = 0;
         }
@@ -220,5 +233,25 @@ public class CountDownRing extends View {
 
     public void setSumTime(int sumTime) {
         this.sumTime = sumTime;
+    }
+
+    public void setListener(onChangeListener listener) {
+        this.mListener = listener;
+    }
+
+    public int getCurrentIndex() {
+        return mIndex;
+    }
+
+    public void setIndex(int index) {
+        this.mIndex = index;
+    }
+
+    public void setSize(int size) {
+        this.mSize = size;
+    }
+
+    public interface onChangeListener {
+        void onChangeImage(int index);
     }
 }
