@@ -208,7 +208,7 @@ public class CountDownRing extends View {
         }
         if (mCurrentTime == sumTime) {
             if (mListener != null) {
-                if (mIndex < mSize) {
+                if (mIndex < mSize -1) {
                     mIndex++;
                 } else {
                     mIndex = 0;
@@ -235,7 +235,7 @@ public class CountDownRing extends View {
         this.sumTime = sumTime;
     }
 
-    public void setListener(onChangeListener listener) {
+    public void setOnChangeListener(onChangeListener listener) {
         this.mListener = listener;
     }
 
