@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">SystemWidget</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="left">Left Button</string>
+
+    <string name="right">Right Button</string>
+
+    <string name="title">Title</string>
+</resources>
