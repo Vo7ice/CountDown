@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TopBar">
+        <!-- left button-->
+        <attr name="leftTextColor" format="color"/>
+        <attr name="leftText" format="string"/>
+        <attr name="leftBackground" format="reference|color"/>
+
+        <!-- right button-->
+        <attr name="rightTextColor" format="color" />
+        <attr name="rightText" format="string"/>
+        <attr name="rightBackground" format="reference|color"/>
+
+        <!-- text view-->
+        <attr name="titleText" format="string"/>
+        <attr name="titleTextSize" format="dimension"/>
+        <attr name="titleTextColors" format="color"/>
+
+        <attr name="titleTextColora" format="color"/>
+        <attr name="titles" format="string"/>
+
+    </declare-styleable>
+</resources>
