@@ -45,4 +45,9 @@
         custom:titles="自定义标题">
 
     </com.cn.guojinhu.systemwidget.Extra.TopBar>
+
+    <com.cn.guojinhu.systemwidget.ShineTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="自定义内容.........."/>
 </LinearLayout>
