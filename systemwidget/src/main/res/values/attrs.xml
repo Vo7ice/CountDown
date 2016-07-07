@@ -20,4 +20,18 @@
         <attr name="titles" format="string"/>
 
     </declare-styleable>
+
+    <declare-styleable name="MyTextView">
+
+        <!-- 外部矩形颜色-->
+        <attr name="outlineColor" format="color"/>
+
+        <!-- 内部矩形颜色-->
+        <attr name="inlineColor" format="color"/>
+
+        <!-- 边距-->
+        <attr name="stoke" format="dimension"/>
+
+
+    </declare-styleable>
 </resources>

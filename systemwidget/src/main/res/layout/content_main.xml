@@ -50,4 +50,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="自定义内容.........."/>
+
+    <com.cn.guojinhu.systemwidget.MyTextView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:outlineColor="@color/material_red_700"
+        app:inlineColor="@color/material_red_400"
+        app:stoke="12dp"
+        android:textSize="16sp"
+        android:textColor="#000"/>
+
+
 </LinearLayout>
