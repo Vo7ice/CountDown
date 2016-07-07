@@ -68,8 +68,8 @@ public class MyTextView extends TextView{
                 getMeasuredHeight()-mStoke,
                 mInlinePaint
         );
-        canvas.translate(mStoke,0);
+        canvas.translate(getMeasuredWidth()/2,getMeasuredHeight()/2);
         super.onDraw(canvas);
-        canvas.restore();
+        //canvas.restore();
     }
 }
