@@ -5,4 +5,6 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="def_title_text_size">16sp</dimen>
+
+    <dimen name="def_stoke">10dp</dimen>
 </resources>
