@@ -34,4 +34,11 @@
 
 
     </declare-styleable>
+
+    <declare-styleable name="TriGraph">
+
+        <!-- 间距-->
+        <attr name="gap" format="dimension"/>
+
+    </declare-styleable>
 </resources>
