@@ -59,15 +59,16 @@
         app:stoke="12dp"
         android:textSize="16sp"
         android:textColor="#000"
-        android:text="MyTextView 文字"/>
+        android:text="MyTextView 文字"
+        android:gravity="center"/>
 
     <com.cn.guojinhu.systemwidget.TeachingView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <com.cn.guojinhu.systemwidget.TeachingView
-        android:layout_width="300"
-        android:layout_height="300" />
+        android:layout_width="300dp"
+        android:layout_height="300dp" />
 
 
 
