@@ -49,29 +49,39 @@
     <com.cn.guojinhu.systemwidget.ShineTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="自定义内容.........."/>
+        android:text="自定义内容.........." />
 
-    <com.cn.guojinhu.systemwidget.MyTextView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:outlineColor="@color/material_red_700"
-        app:inlineColor="@color/material_red_400"
-        app:stoke="12dp"
-        android:textSize="16sp"
-        android:textColor="#000"
-        android:text="MyTextView 文字"
-        android:gravity="center"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
-    <com.cn.guojinhu.systemwidget.TeachingView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <com.cn.guojinhu.systemwidget.MyTextView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:text="MyTextView 文字"
+            android:textColor="#000"
+            android:textSize="16sp"
+            app:inlineColor="@color/material_red_400"
+            app:outlineColor="@color/material_red_700"
+            app:stoke="12dp" />
 
-    <com.cn.guojinhu.systemwidget.TriGraph
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:gap="16dp"/>
+        <com.cn.guojinhu.systemwidget.TeachingView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.cn.guojinhu.systemwidget.TriGraph
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:gap="16dp" />
+    </LinearLayout>
 
 
+    <com.cn.guojinhu.systemwidget.VolumeView
+        android:layout_width="200dp"
+        android:layout_height="200dp" />
 
 
 </LinearLayout>

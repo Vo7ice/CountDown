@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements TopBar.OnTopBarCl
 
         Log.d("Vo7ice","getTitle:"+topBar.getTitleText());
 
-       /* // 获得我们创建的topbar
+        // 获得我们创建的topbar
         mTopbar = (com.cn.guojinhu.systemwidget.Extra.TopBar) findViewById(R.id.topBar2);
         // 为topbar注册监听事件，传入定义的接口
         // 并以匿名类的方式实现接口内的方法
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements TopBar.OnTopBarCl
                                 "left", Toast.LENGTH_SHORT)
                                 .show();
                     }
-                });*/
+                });
         // 控制topbar上组件的状态
         //mTopbar.setButtonVisable(0, true);
         //mTopbar.setButtonVisable(1, false);
