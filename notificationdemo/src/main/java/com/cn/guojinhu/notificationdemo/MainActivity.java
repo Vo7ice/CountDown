@@ -3,6 +3,7 @@ package com.cn.guojinhu.notificationdemo;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,12 +33,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+//        RingtoneManager manager = this.getSystemService(RingtoneManager.class);
         absolutePath = Environment.getExternalStorageDirectory().getAbsolutePath();
         Log.d("Vo7ice","path:"+absolutePath);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         notification = builder.setSmallIcon(R.mipmap.ic_launcher)
                               .setAutoCancel(false)
-                              .setSound(Uri.parse(absolutePath+"/Music/F.I.R - Lydia.mp3"))
+                              .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                               .setTicker("You clicked BaseNF!")
                               .setContentTitle("Title")
                               .build();
@@ -52,12 +55,16 @@ public class MainActivity extends AppCompatActivity {
                 mNotificationManager.notify(1000,notification);
             }
         });
-        findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+
+        Button view = (Button) findViewById(R.id.btn_cancel);
+        assert view != null;
+
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //mNotificationManager.cancel(1000);
-                mNotificationManager.notify(1001,notification);
-                Toast.makeText(MainActivity.this,"Toast String",Toast.LENGTH_LONG).show();
+                mNotificationManager.notify(1001, notification);
+                Toast.makeText(MainActivity.this, "Toast String", Toast.LENGTH_LONG).show();
             }
         });
 
