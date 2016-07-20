@@ -1,7 +1,9 @@
-package com.cn.guojinhu.game2048;
+package com.cn.guojinhu.game2048.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.cn.guojinhu.game2048.R;
 
 public class GameActivity extends AppCompatActivity {
 
