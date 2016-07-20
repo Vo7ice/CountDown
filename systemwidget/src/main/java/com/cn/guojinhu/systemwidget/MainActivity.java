@@ -1,20 +1,23 @@
 package com.cn.guojinhu.systemwidget;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements TopBar.OnTopBarClickListener {
 
     TopBar topBar;
     com.cn.guojinhu.systemwidget.Extra.TopBar mTopbar;
+    Button scroll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements TopBar.OnTopBarCl
         topBar.setOnTopBarClickListener(this);
         topBar.setFlag(TopBar.SHOW_LEFT);
 
-        Log.d("Vo7ice","getTitle:"+topBar.getTitleText());
+        Log.d("Vo7ice", "getTitle:" + topBar.getTitleText());
 
         // 获得我们创建的topbar
         mTopbar = (com.cn.guojinhu.systemwidget.Extra.TopBar) findViewById(R.id.topBar2);
@@ -65,6 +68,14 @@ public class MainActivity extends AppCompatActivity implements TopBar.OnTopBarCl
         // 控制topbar上组件的状态
         //mTopbar.setButtonVisable(0, true);
         //mTopbar.setButtonVisable(1, false);
+
+        scroll = (Button) findViewById(R.id.scroll);
+        scroll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ScrollActivity.class));
+            }
+        });
     }
 
     @Override

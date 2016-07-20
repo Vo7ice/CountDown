@@ -6,8 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PaintFlagsDrawFilter;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 public class TriGraph extends View {
@@ -50,6 +50,7 @@ public class TriGraph extends View {
 
         mPaint = new Paint();
         mPaint.setColor(Color.BLUE);
+        mPaint.setAntiAlias(true);//增加抗锯齿标记
     }
 
     @Override
@@ -65,7 +66,7 @@ public class TriGraph extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
+        canvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG));//为画布增加抗锯齿标记
         int originalX = getWidth()/2;
         int originalY = getHeight()/2;
         mPath.moveTo(originalX, originalY);

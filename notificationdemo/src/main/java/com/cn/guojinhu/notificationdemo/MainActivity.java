@@ -18,6 +18,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,11 +39,15 @@ public class MainActivity extends AppCompatActivity {
         absolutePath = Environment.getExternalStorageDirectory().getAbsolutePath();
         Log.d("Vo7ice","path:"+absolutePath);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        notification = builder.setSmallIcon(R.mipmap.ic_launcher)
+        notification = builder.setSmallIcon(R.drawable.ic_local_play_24dp)//小图标
+                              .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))//launcher 图标
                               .setAutoCancel(false)
                               .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                               .setTicker("You clicked BaseNF!")
-                              .setContentTitle("Title")
+                              .setContentTitle("这是通知标题")
+                              .setContentText("这是通知内容")
+                              .setWhen(System.currentTimeMillis())
+                              .setColor(Color.RED)
                               .build();
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
