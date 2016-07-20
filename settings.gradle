@@ -1,1 +1,1 @@
-include ':app', ':notificationdemo', ':systemwidget'
+include ':app', ':notificationdemo', ':systemwidget', ':game2048'
