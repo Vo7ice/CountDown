@@ -36,18 +36,18 @@ public class MainActivity extends AppCompatActivity {
 
 //        RingtoneManager manager = this.getSystemService(RingtoneManager.class);
         absolutePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-        Log.d("Vo7ice","path:"+absolutePath);
+        Log.d("Vo7ice", "path:" + absolutePath);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         notification = builder.setSmallIcon(R.drawable.ic_local_play_24dp)//小图标
-                              .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))//launcher 图标
-                              .setAutoCancel(false)
-                              .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                              .setTicker("You clicked BaseNF!")
-                              .setContentTitle("这是通知标题")
-                              .setContentText("这是通知内容")
-                              .setWhen(System.currentTimeMillis())
-                              .setColor(Color.RED)
-                              .build();
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))//launcher 图标
+                .setAutoCancel(false)
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setTicker("You clicked BaseNF!")
+                .setContentTitle("这是通知标题")
+                .setContentText("这是通知内容")
+                .setWhen(System.currentTimeMillis())
+                .setColor(Color.RED)
+                .build();
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
-                mNotificationManager.notify(1000,notification);
+                mNotificationManager.notify(1000, notification);
             }
         });
 
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //mNotificationManager.cancel(1000);
                 //mNotificationManager.notify(1001, notification);
-                startActivity(new Intent(MainActivity.this,MainActivity.class));
+                startActivity(new Intent(MainActivity.this, AlertActivity.class));
                 Toast.makeText(MainActivity.this, "Toast String", Toast.LENGTH_LONG).show();
             }
         });

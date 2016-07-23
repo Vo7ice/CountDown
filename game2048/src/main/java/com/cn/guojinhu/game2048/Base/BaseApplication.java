@@ -9,6 +9,8 @@ public class BaseApplication extends Application {
 
     private static final String TAG = "BaseApplication";
 
+    public static int SCORE = 0;
+
     public static String SP_HIGH_SCROE = "SP_HIGHSCROE";
 
     public static String KEY_HIGH_SCROE = "KEY_HighScore";

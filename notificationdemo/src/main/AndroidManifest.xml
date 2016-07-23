@@ -18,6 +18,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".AlertActivity"
+            android:label="ALertActivity">
+
+        </activity>
+        <activity android:name=".TargetActivity">
+            <intent-filter>
+                <action android:name="guojin.target" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
