@@ -26,9 +26,7 @@ public class GameItemView extends FrameLayout {
         setCardNum(cardNum);//设置数字
         mTextNum.getPaint().setFakeBoldText(true);//设置粗体
         mTextNum.setGravity(Gravity.CENTER);
-        LayoutParams layoutParams = (LayoutParams) mTextNum.getLayoutParams();//设置布局参数
-        layoutParams.height = LayoutParams.MATCH_PARENT;
-        layoutParams.width = LayoutParams.MATCH_PARENT;
+        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);//设置布局参数
         layoutParams.setMargins(5, 5, 5, 5);
         addView(mTextNum, layoutParams);
     }
@@ -38,7 +36,7 @@ public class GameItemView extends FrameLayout {
     }
 
     public void setCardNum(int cardNum) {
-        this.mCardNum = cardNum;
+        mCardNum = cardNum;
         if (mCardNum == 0) {
             mTextNum.setText("");
         } else {
