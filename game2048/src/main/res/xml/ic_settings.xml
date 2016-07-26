@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="游戏设置">
+        <CheckBoxPreference
+            android:key="fullscreen"
+            android:title="@string/fullscreen" />
+        <ListPreference
+            android:entries="@array/size"
+            android:entryValues="@array/size_value"
+            android:key="gameitem_size"
+            android:summary="4"
+            android:title="@string/gameItem_size" />
+    </PreferenceCategory>
+</PreferenceScreen>

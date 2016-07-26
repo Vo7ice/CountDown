@@ -1,5 +1,6 @@
 package com.cn.guojinhu.game2048.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.Gravity;
@@ -110,7 +111,18 @@ public class GameActivity extends BaseActivity implements GameView.onUIChangeLis
                 mGameView.revertGame();
                 break;
             case R.id.btn_settings:
+                Intent intent = new Intent(GameActivity.this,SettingsActivity.class);
+                startActivityForResult(intent,0);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode ==0){
+            if (resultCode == RESULT_OK){
+
+            }
         }
     }
 }
