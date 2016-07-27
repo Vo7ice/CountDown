@@ -21,10 +21,13 @@
 
         <activity
             android:name=".AlertActivity"
-            android:label="ALertActivity">
+            android:label="ALertActivity"
+            android:theme="@android:style/Theme.Material.Light.Dialog">
 
         </activity>
-        <activity android:name=".TargetActivity">
+        <activity
+            android:name=".TargetActivity"
+            android:theme="@style/dialog">
             <intent-filter>
                 <action android:name="guojin.target" />
 
