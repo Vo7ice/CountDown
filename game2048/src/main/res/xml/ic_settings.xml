@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="游戏设置">
-        <CheckBoxPreference
+    <PreferenceCategory android:title="显示设置">
+        <SwitchPreference
             android:key="fullscreen"
             android:title="@string/fullscreen" />
+        <SwitchPreference
+            android:key="nightmode"
+            android:title="@string/nightmode" />
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="游戏设置">
         <ListPreference
-            android:entries="@array/size"
-            android:entryValues="@array/size_value"
+            android:entries="@array/size_value"
+            android:entryValues="@array/size"
             android:key="gameitem_size"
-            android:summary="4"
+            android:summary="默认"
+            android:defaultValue="true"
             android:title="@string/gameItem_size" />
+        <ListPreference
+            android:entries="@array/target_value"
+            android:entryValues="@array/target"
+            android:defaultValue="true"
+            android:title="@string/target_setting" />
+        <SwitchPreference
+            android:key="gold_finger"
+            android:title="@string/super_setting" />
     </PreferenceCategory>
 </PreferenceScreen>

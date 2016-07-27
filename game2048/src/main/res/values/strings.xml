@@ -15,16 +15,10 @@
     <string name="action_settings">Settings</string>
 
     <string name="fullscreen">全屏模式</string>
-    <string name="gameItem_size">个数</string>
+    <string name="nightmode">夜间模式</string>
+    <string name="gameItem_size">设置游戏难度</string>
+    <string name="target_setting">设置目标分数</string>
+    <string name="super_setting">金手指</string>
 
-    <string-array name="size_value">
-        <item> 3</item>
-        <item> 4</item>
-        <item> 5</item>
-    </string-array>
-    <string-array name="size">
-        <item> 1</item>
-        <item> 2</item>
-        <item> 3</item>
-    </string-array>
+
 </resources>

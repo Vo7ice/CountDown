@@ -2,6 +2,7 @@ package com.cn.guojinhu.notificationdemo;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -45,9 +46,12 @@ public class MainActivity extends AppCompatActivity {
                 .setTicker("You clicked BaseNF!")
                 .setContentTitle("这是通知标题")
                 .setContentText("这是通知内容")
+                /*.setOngoing(true)*/
+                .setFullScreenIntent(createIntent(MainActivity.this), true)
                 .setWhen(System.currentTimeMillis())
                 .setColor(Color.RED)
                 .build();
+        notification.extras.putInt("headsup", 0);//取消head-up风格通知,使fullScreenIntent起效
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -74,6 +78,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private PendingIntent createIntent(Context context) {
+        Intent intent = new Intent(context, TargetActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     @Override
