@@ -2,28 +2,32 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="显示设置">
         <SwitchPreference
-            android:key="fullscreen"
-            android:title="@string/fullscreen" />
+            android:key="preference_fullcreen"
+            android:title="@string/fullscreen"
+            android:defaultValue="false"/>
         <SwitchPreference
-            android:key="nightmode"
-            android:title="@string/nightmode" />
+            android:key="preference_nightmode"
+            android:title="@string/nightmode"
+            android:defaultValue="false"/>
 
     </PreferenceCategory>
     <PreferenceCategory android:title="游戏设置">
         <ListPreference
-            android:entries="@array/size_value"
-            android:entryValues="@array/size"
-            android:key="gameitem_size"
+            android:defaultValue="4"
+            android:entries="@array/line_value"
+            android:entryValues="@array/line"
+            android:key="preference_gameline"
             android:summary="默认"
-            android:defaultValue="true"
             android:title="@string/gameItem_size" />
         <ListPreference
+            android:defaultValue="2048"
             android:entries="@array/target_value"
             android:entryValues="@array/target"
-            android:defaultValue="true"
+            android:key="preference_target_score"
             android:title="@string/target_setting" />
         <SwitchPreference
-            android:key="gold_finger"
-            android:title="@string/super_setting" />
+            android:key="preference_gold_finger"
+            android:title="@string/super_setting"
+            android:defaultValue="false"/>
     </PreferenceCategory>
 </PreferenceScreen>

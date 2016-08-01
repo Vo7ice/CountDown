@@ -51,7 +51,7 @@ public class GameActivity extends BaseActivity implements GameView.onUIChangeLis
         root.addView(mGameView, params);
 
         mGameView.setOnUIChangeListener(this);
-
+        
     }
 
     private void initViews() {
@@ -111,16 +111,16 @@ public class GameActivity extends BaseActivity implements GameView.onUIChangeLis
                 mGameView.revertGame();
                 break;
             case R.id.btn_settings:
-                Intent intent = new Intent(GameActivity.this,SettingsActivity.class);
-                startActivityForResult(intent,0);
+                Intent intent = new Intent(GameActivity.this, SettingsActivity.class);
+                startActivityForResult(intent, 0);
                 break;
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode ==0){
-            if (resultCode == RESULT_OK){
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
 
             }
         }

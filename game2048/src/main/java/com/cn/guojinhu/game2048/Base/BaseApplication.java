@@ -3,6 +3,7 @@ package com.cn.guojinhu.game2048.Base;
 import android.app.Application;
 import android.util.Log;
 
+import com.cn.guojinhu.game2048.activity.SettingsFragment;
 import com.cn.guojinhu.game2048.utils.SPUtils;
 
 public class BaseApplication extends Application {
@@ -38,9 +39,12 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "onCreate()");
+        SettingsFragment.setDefaultValues(getApplicationContext());
+        
         mGameLines = (int) SPUtils.get(getApplicationContext(), KEY_GAME_LINES, 4);
         mGameGoal = (int) SPUtils.get(getApplicationContext(), KEY_GAME_GOAL, 2048);
         mItemSize = 0;
+
     }
 
     
