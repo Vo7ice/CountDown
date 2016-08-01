@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.storage.StorageManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,7 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
 //        RingtoneManager manager = this.getSystemService(RingtoneManager.class);
         absolutePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        StorageManager ma = this.getSystemService(StorageManager.class);
         Log.d("Vo7ice", "path:" + absolutePath);
+        Toast.makeText(MainActivity.this, "path:" + absolutePath, Toast.LENGTH_LONG).show();
+
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         notification = builder.setSmallIcon(R.drawable.ic_local_play_24dp)//小图标
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))//launcher 图标
@@ -73,10 +84,44 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //mNotificationManager.cancel(1000);
                 //mNotificationManager.notify(1001, notification);
-                startActivity(new Intent(MainActivity.this, AlertActivity.class));
-                Toast.makeText(MainActivity.this, "Toast String", Toast.LENGTH_LONG).show();
+                //startActivity(new Intent(MainActivity.this, AlertActivity.class));
+                Toast.makeText(MainActivity.this, "Toast Start", Toast.LENGTH_SHORT).show();
+                addFile();
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//                        Toast.makeText(MainActivity.this, "Toast End", Toast.LENGTH_LONG).show();
+//                    }
+//                }).start();
+
             }
         });
+
+    }
+
+    private void addFile() {
+        File file = null;
+        File f = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        Log.d("Vo7ice", "f:" + f.exists() + "--path:" + f.getAbsolutePath());
+        if (f.exists()) {
+            file = new File(f, "test.txt");
+            if (!file.exists()){
+                try {
+                    file.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        Log.d("Vo7ice", "file:" + file.exists() + "--path:" + file.getAbsolutePath());
+        try {
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
+            bw.write("this is a test");
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
