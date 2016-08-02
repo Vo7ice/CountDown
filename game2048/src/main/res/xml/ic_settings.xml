@@ -20,7 +20,7 @@
             android:summary="默认"
             android:title="@string/gameItem_size" />
         <ListPreference
-            android:defaultValue="2048"
+            android:defaultValue="-1"
             android:entries="@array/target_value"
             android:entryValues="@array/target"
             android:key="preference_target_score"
