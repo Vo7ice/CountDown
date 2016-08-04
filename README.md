@@ -6,3 +6,19 @@
 - 进度条最后5s有变化
 - ~~进度条重置~~
 
+------
+
+# Game2048
+模仿`Android群英传`中的`2048`游戏
+
+------
+
+# SystemWidget
+学习`Android群英传`自定义控件
+
+----------
+
+# NotificationDemo
+关于`Notification`相关`builde`
+
+
