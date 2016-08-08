@@ -27,8 +27,7 @@
         custom:rightTextColor="#FFFFFF"
         custom:titleText="自定义标题"
         custom:titleTextColors="#123412"
-        custom:titleTextSize="15sp">
-    </com.cn.guojinhu.systemwidget.TopBar>
+        custom:titleTextSize="15sp"></com.cn.guojinhu.systemwidget.TopBar>
 
     <com.cn.guojinhu.systemwidget.Extra.TopBar
         android:id="@+id/topBar2"
@@ -92,8 +91,13 @@
             android:id="@+id/scroll"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_gravity="center"
             android:gravity="center"
-            android:text="跳转Scroll"/>
+            android:text="跳转Scroll" />
+        <Button
+            android:id="@+id/test"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:text="跳转Test" />
     </LinearLayout>
 </LinearLayout>

@@ -18,8 +18,8 @@
         <item> 8192 </item>
     </string-array>
     <string-array name="target">
-        <item> -1 </item>
-        <item> 0 </item>
-        <item> 1 </item>
+        <item> 2048 </item>
+        <item> 4096 </item>
+        <item> 8192 </item>
     </string-array>
 </resources>

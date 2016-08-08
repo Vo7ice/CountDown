@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity implements TopBar.OnTopBarCl
 
     TopBar topBar;
     com.cn.guojinhu.systemwidget.Extra.TopBar mTopbar;
-    Button scroll;
+    Button scroll, test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +74,15 @@ public class MainActivity extends AppCompatActivity implements TopBar.OnTopBarCl
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, ScrollActivity.class));
+            }
+        });
+
+        test = (Button) findViewById(R.id.test);
+        test.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, TestActivity.class));
             }
         });
     }
