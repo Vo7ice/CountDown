@@ -1,4 +1,4 @@
-package com.cn.guojinhu.game2048;
+﻿package com.cn.guojinhu.game2048;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.cn.guojinhu.game2048;
+﻿package com.cn.guojinhu.game2048;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

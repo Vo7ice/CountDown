@@ -1,4 +1,4 @@
-package com.cn.guojinhu.notificationdemo;
+﻿package com.cn.guojinhu.notificationdemo;
 
 import org.junit.Test;
 

@@ -25,10 +25,15 @@ public class MyTextView extends TextView{
         initView();
     }
 
+    @Override
+    public boolean hasOverlappingRendering() {
+        return false;
+    }
+
     public MyTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         TypedArray ty = context.obtainStyledAttributes(attrs,R.styleable.MyTextView);
-        mStoke = ty.getDimension(R.styleable.MyTextView_stoke, R.dimen.def_stoke);
+        mStoke = ty.getDimension(R.styleable.MyTextView_stoke, 1.5f);
         mOutlineColor = ty.getColor(R.styleable.MyTextView_outlineColor, def_outlineColor);
         mInlineColor = ty.getColor(R.styleable.MyTextView_inlineColor, def_inlineColor);
         ty.recycle();

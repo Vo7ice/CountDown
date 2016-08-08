@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_test"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.cn.guojinhu.systemwidget.TestActivity"
+    tools:showIn="@layout/activity_test"
+    android:background="@color/material_green_800">
+
+    <com.cn.guojinhu.systemwidget.KeyguardView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/keyguard"
+        android:src="@drawable/ic_monochrome_photos_black_24dp"
+        app:layout_constraintCenterX_toCenterX="@id/content_test"
+        app:layout_constraintCenterY_toCenterY="@id/content_test"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+</android.support.constraint.ConstraintLayout>

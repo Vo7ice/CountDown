@@ -1,6 +1,5 @@
 package com.cn.guojinhu.countdown;
 
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;

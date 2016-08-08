@@ -9,4 +9,6 @@
     <dimen name="def_stoke">10dp</dimen>
 
     <dimen name="def_gap">20dp</dimen>
+
+    <dimen name="circle_radius">25dp</dimen>
 </resources>

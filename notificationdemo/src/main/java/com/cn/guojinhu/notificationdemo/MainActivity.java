@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Vo7ice", "path:" + absolutePath);
         Toast.makeText(MainActivity.this, "path:" + absolutePath, Toast.LENGTH_LONG).show();
 
-
+        Notification.Builder builder1;
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         notification = builder.setSmallIcon(R.drawable.ic_local_play_24dp)//小图标
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))//launcher 图标

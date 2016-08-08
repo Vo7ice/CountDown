@@ -9,6 +9,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.cn.guojinhu.countdown.CountDownRing;
+
 public class MainActivity extends AppCompatActivity implements CountDownRing.onChangeListener, Animation.AnimationListener {
 
     CountDownRing ring;
