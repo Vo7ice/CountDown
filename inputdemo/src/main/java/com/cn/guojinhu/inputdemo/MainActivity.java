@@ -1,28 +1,29 @@
 package com.cn.guojinhu.inputdemo;
 
-import android.content.Context;
-import android.graphics.PixelFormat;
-import android.inputmethodservice.InputMethodService;
+import android.Manifest;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodInfo;
-import android.view.inputmethod.InputMethodManager;
-
-import java.util.List;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Button btn_start_float;
+    private Intent floatIntent;
+
+    private static final String[] FLOAT_WINDOW = {Manifest.permission.SYSTEM_ALERT_WINDOW};
+
+    public static int OVERLAY_PERMISSION_REQ_CODE = 1234;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        /*InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         List<InputMethodInfo> inputMethodList = imm.getInputMethodList();
         for (InputMethodInfo inputMethodInfo : inputMethodList) {
             Log.d("Vo7ice", "info-->" + inputMethodInfo.getPackageName());
@@ -50,9 +51,51 @@ public class MainActivity extends AppCompatActivity {
                 LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.TYPE_APPLICATION_PANEL,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN, PixelFormat.TRANSLUCENT);
-        params.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;
+        params.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;*/
 
+        btn_start_float = (Button) findViewById(R.id.start_float_window);
+        floatIntent = new Intent(MainActivity.this, FloatPlayService.class);
+        btn_start_float.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //startFloatWindow();
+                checkForPermission();
+            }
+        });
     }
+
+
+    private void startFloatWindow() {
+        Toast.makeText(MainActivity.this,"start...",Toast.LENGTH_SHORT).show();
+        floatIntent.setDataAndType(Uri.parse(Environment.getExternalStorageDirectory().getPath() + "/Movies/Demo.mp4"), "video/*");
+        startService(floatIntent);
+        finish();
+    }
+
+    public void checkForPermission() {
+        if (!Settings.canDrawOverlays(this)) {
+            Toast.makeText(MainActivity.this, "当前无权限，请授权！", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + getPackageName()));
+            startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
+        } else {
+            startFloatWindow();
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == OVERLAY_PERMISSION_REQ_CODE) {
+            if (!Settings.canDrawOverlays(this)) {
+                Toast.makeText(MainActivity.this, "权限授予失败，无法开启悬浮窗", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(MainActivity.this, "权限授予成功！", Toast.LENGTH_SHORT).show();
+                //启动FloatService
+                startFloatWindow();
+            }
+
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
