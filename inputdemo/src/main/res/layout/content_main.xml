@@ -9,14 +9,19 @@
     tools:context="com.cn.guojinhu.inputdemo.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Hello World!"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/content_main"
-        app:layout_constraintLeft_toLeftOf="@+id/content_main"
-        app:layout_constraintRight_toRightOf="@+id/content_main"
-        app:layout_constraintTop_toTopOf="@+id/content_main" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <Button
+            android:id="@+id/start_float_window"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开启浮动屏幕"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
 
 </android.support.constraint.ConstraintLayout>
