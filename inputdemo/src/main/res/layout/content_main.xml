@@ -9,19 +9,32 @@
     tools:context="com.cn.guojinhu.inputdemo.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <Button
-            android:id="@+id/start_float_window"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="开启浮动屏幕"
+            android:id="@+id/single_start_float_window"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="单部影片开启浮动屏幕"
             android:textSize="16sp" />
-    </RelativeLayout>
+
+        <Button
+            android:id="@+id/multi_start_float_window"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="多部影片开启浮动屏幕"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/network_start_float_window"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="网络资源开启浮动屏幕"
+            android:textSize="16sp" />
+    </LinearLayout>
 
 
 </android.support.constraint.ConstraintLayout>

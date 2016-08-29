@@ -1,5 +1,6 @@
 package com.cn.guojinhu.inputdemo;
 
+import android.animation.ValueAnimator;
 import android.app.KeyguardManager;
 import android.app.Service;
 import android.content.Context;
@@ -7,6 +8,8 @@ import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.os.PowerManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -17,8 +20,12 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.WindowManager;
+import android.view.WindowManager.LayoutParams;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 
 import java.io.IOException;
 
@@ -29,7 +36,11 @@ import java.io.IOException;
 public class FloatPlayer implements SurfaceHolder.Callback,
         MediaPlayer.OnBufferingUpdateListener,
         MediaPlayer.OnPreparedListener,
-        MediaPlayer.OnCompletionListener {
+        MediaPlayer.OnCompletionListener,
+        MediaPlayer.OnSeekCompleteListener,
+        View.OnClickListener,
+        View.OnTouchListener,
+        SeekBar.OnSeekBarChangeListener {
     private static final String TAG = "FloatPlayer";
     public static final int STATE_ERROR = -1;
     public static final int STATE_IDLE = 0;
@@ -38,6 +49,10 @@ public class FloatPlayer implements SurfaceHolder.Callback,
     public static final int STATE_PLAYING = 3;
     public static final int STATE_PAUSED = 4;
     public static final int STATE_PLAYBACK_COMPLETED = 5;
+    public static final int STATE_SEEK_FLING = 6;
+
+    private static final int MEDIA_PLAY = 0;
+    private static final int MEDIA_PAUSE = 1;
 
     private Context mContext;
     private WindowManager mWm;
@@ -49,6 +64,9 @@ public class FloatPlayer implements SurfaceHolder.Callback,
     public RelativeLayout mRootView;
     private SurfaceView mSurfaceView;
     private SurfaceHolder mSurfaceHolder;
+    private SeekBar mSeekBar;
+    private ImageButton mCloseButton;
+    private ImageButton mPlayPauseButton;
 
     private int mPosition;
     private int mSeekPositionWhenPrepared;
@@ -67,6 +85,10 @@ public class FloatPlayer implements SurfaceHolder.Callback,
 
     private GestureDetector mGestureDetector;
     private ScaleGestureDetector mScaleGestureDetector;
+
+    private final Seekhandler mHandler;
+    private final Runnable mPositionUpdate;
+    private final Runnable mStartHidingUI;
 
     AudioManager.OnAudioFocusChangeListener afChangeListener = new AudioManager.OnAudioFocusChangeListener() {
         public void onAudioFocusChange(int focusChange) {
@@ -123,6 +145,27 @@ public class FloatPlayer implements SurfaceHolder.Callback,
 
         mGestureDetector = new GestureDetector(mContext, new GestureListener());
         mScaleGestureDetector = new ScaleGestureDetector(mContext, new ScaleGestureListener());
+
+        mHandler = new Seekhandler();
+        mPositionUpdate = new Runnable() {
+            @Override
+            public void run() {
+                if (null != mMediaPlayer) {
+                    int currentPosition = mMediaPlayer.getCurrentPosition();
+                    //Log.d(TAG, "runnable:currentPosition-->" + currentPosition);
+                    mSeekBar.setProgress(currentPosition);
+                    mHandler.postDelayed(mPositionUpdate, 500);
+                }
+            }
+        };
+
+        mStartHidingUI = new Runnable() {
+            @Override
+            public void run() {
+                startFadeOut();
+            }
+        };
+
     }
 
     public void play() {
@@ -130,11 +173,23 @@ public class FloatPlayer implements SurfaceHolder.Callback,
         if (isInPlaybackState()) {
             mMediaPlayer.start();
             setCurrentState(STATE_PLAYING);
+            updateBtnState();
         }
+        startFadeIn();
         mTargetState = STATE_PLAYING;
         mAm.requestAudioFocus(
                 afChangeListener, AudioManager.STREAM_MUSIC,
                 AudioManager.AUDIOFOCUS_GAIN);
+        mHandler.sendEmptyMessage(MEDIA_PLAY);
+    }
+
+    public void seekFling() {
+        Log.d(TAG, "start seek fling,mTargetState-->" + mTargetState);
+        if (isInPlaybackState()) {
+            mMediaPlayer.pause();
+            setCurrentState(STATE_SEEK_FLING);
+            updateBtnState();
+        }
     }
 
     public void seekTo(int position) {
@@ -149,10 +204,14 @@ public class FloatPlayer implements SurfaceHolder.Callback,
 
     public int getPosition() {
         if (mMediaPlayer != null
-                && (mCurrentState == STATE_PAUSED || mCurrentState == STATE_PLAYING)) {
+                && (mCurrentState == STATE_PAUSED ||
+                mCurrentState == STATE_PLAYING ||
+                mCurrentState == STATE_SEEK_FLING)) {
             mPosition = mMediaPlayer.getCurrentPosition();
+            Log.d(TAG, "getPosition-->" + mPosition);
             return mPosition;
         } else if (mMediaPlayer == null) {
+            Log.d(TAG, "getPosition-->" + mPosition);
             return mPosition;
         } else {
             return 0;
@@ -164,8 +223,11 @@ public class FloatPlayer implements SurfaceHolder.Callback,
             mPosition = mMediaPlayer.getCurrentPosition();
             mMediaPlayer.pause();
             setCurrentState(STATE_PAUSED);
+            updateBtnState();
         }
+        startFadeIn();
         mTargetState = STATE_PAUSED;
+        mHandler.sendEmptyMessage(MEDIA_PAUSE);
     }
 
     public void stop() {
@@ -222,6 +284,13 @@ public class FloatPlayer implements SurfaceHolder.Callback,
         return mCurrentState;
     }
 
+    private void updateBtnState() {
+        if (mCurrentState == STATE_PLAYING) {
+            mPlayPauseButton.setImageResource(R.drawable.ic_pause_black_24dp);
+        } else {
+            mPlayPauseButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+        }
+    }
 
     private int getStatusBarHeight() {
         int result = 0;
@@ -235,25 +304,39 @@ public class FloatPlayer implements SurfaceHolder.Callback,
     public void addToWindow() {
         mWm = (WindowManager) mContext.getApplicationContext().getSystemService(
                 Context.WINDOW_SERVICE);
-        mWmParams = new WindowManager.LayoutParams();
-        mWmParams.type = WindowManager.LayoutParams.TYPE_PHONE;//set type
-        mWmParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
-        mWmParams.gravity = Gravity.START | Gravity.TOP;
-        mWmParams.format = 1;
-        mWmParams.x = 0;
-        mWmParams.y = 0;
-        mWmParams.width = 500;
-        mWmParams.height = 300;
+        mWmParams = createLayoutParams();
+
         mRootView = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.float_window, null);
+        mRootView.setOnTouchListener(this);
         mSurfaceView = (SurfaceView) mRootView.findViewById(R.id.surfaceView);
         mSurfaceHolder = mSurfaceView.getHolder();
         mSurfaceHolder.addCallback(this);
+
+        mSeekBar = (SeekBar) mRootView.findViewById(R.id.position_seekbar);
+        mSeekBar.setOnSeekBarChangeListener(this);
+        mCloseButton = (ImageButton) mRootView.findViewById(R.id.close_button);
+        mCloseButton.setOnClickListener(this);
+        mPlayPauseButton = (ImageButton) mRootView.findViewById(R.id.paly_pause_button);
+        mPlayPauseButton.setOnClickListener(this);
+
         mWm.addView(mRootView, mWmParams);
 
         mAm = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
         mAm.requestAudioFocus(afChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+    }
+
+    private LayoutParams createLayoutParams() {
+        LayoutParams wmParams = new LayoutParams();
+        wmParams.type = LayoutParams.TYPE_PHONE;//set type
+        wmParams.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
+                | LayoutParams.FLAG_NOT_FOCUSABLE | LayoutParams.FLAG_KEEP_SCREEN_ON;
+        wmParams.gravity = Gravity.START | Gravity.TOP;
+        wmParams.format = 1;
+        wmParams.x = 0;
+        wmParams.y = 0;
+        wmParams.width = LayoutParams.MATCH_PARENT;
+        wmParams.height = 300;
+        return wmParams;
     }
 
     public void setVideoUri(Uri uri) {
@@ -270,17 +353,93 @@ public class FloatPlayer implements SurfaceHolder.Callback,
                 mSurfaceView.refreshDrawableState();
                 Log.d(TAG, "setVideoUri end");
             }
-        } catch (IOException e) {
+        } catch (IOException | IllegalStateException | IllegalArgumentException e) {
             e.printStackTrace();
             Log.d(TAG, "error:" + e.getMessage());
         }
 
     }
 
-    public void removeFromWindow() {
-        mWm.removeView(mRootView);
+    public void onCompletion() {
+        setCurrentState(STATE_PLAYBACK_COMPLETED);
+        mTargetState = STATE_PLAYBACK_COMPLETED;
+        updateBtnState();
+        mPosition = -1;
+        closeWindow();
     }
 
+    public void removeFromWindow() {
+        if (null != mRootView) {
+            mWm.removeView(mRootView);
+            mRootView = null;
+        }
+        mAm.abandonAudioFocus(afChangeListener);
+    }
+
+    public void closeWindow() {
+        removeFromWindow();
+        ((Service) mContext).stopSelf();
+    }
+
+    private boolean mIsVisible = true;//UI状态
+
+    /**
+     * 隐藏UI动画
+     */
+    private void startFadeOut() {
+        ValueAnimator animator = ValueAnimator.ofFloat(1F, 0F);
+        animator.setDuration(500);
+
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                float currentAlpha = (float) valueAnimator.getAnimatedValue();
+                mCloseButton.setAlpha(currentAlpha);
+                mPlayPauseButton.setAlpha(currentAlpha);
+                mSeekBar.setAlpha(currentAlpha);
+            }
+        });
+        animator.start();
+        mHandler.removeCallbacks(mStartHidingUI);
+        mIsVisible = false;
+    }
+
+    /**
+     * 显示UI动画
+     */
+    private void startFadeIn() {
+        ValueAnimator animator = ValueAnimator.ofFloat(0F, 1F);
+        animator.setDuration(500);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                float currentAlpha = (float) valueAnimator.getAnimatedValue();
+                mCloseButton.setAlpha(currentAlpha);
+                mPlayPauseButton.setAlpha(currentAlpha);
+                mSeekBar.setAlpha(currentAlpha);
+            }
+        });
+        animator.start();
+        mHandler.removeCallbacks(mStartHidingUI);
+        //Log.d("Vo7ice", "mIsVisible," + mIsVisible);
+        if (mCurrentState == STATE_PLAYING || mCurrentState == STATE_PAUSED && mIsVisible) {
+            mHandler.postDelayed(mStartHidingUI, 7000);
+        }
+        mIsVisible = true;
+    }
+
+    /**
+     * 判断当前UI状态,决定是否显示UI
+     */
+    private void performUI() {
+        if (mIsVisible) {
+            startFadeOut();
+        } else {
+            startFadeIn();
+        }
+    }
+
+    /*SurfaceView监听*/
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         Log.d(TAG, "surface created");
@@ -310,12 +469,20 @@ public class FloatPlayer implements SurfaceHolder.Callback,
         release();
     }
 
+    /*MediaPlayer监听*/
+    //缓冲进度
     @Override
     public void onBufferingUpdate(MediaPlayer mediaPlayer, int i) {
         Log.d(TAG, "onBufferingUpdate");
-        
+        if (null != mSeekBar) {
+            mSeekBar.setSecondaryProgress(i);
+        }
+
+
     }
 
+    /*MediaPlayer监听*/
+    //准备就绪
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
         Log.d(TAG, "onPrepared");
@@ -329,6 +496,7 @@ public class FloatPlayer implements SurfaceHolder.Callback,
         } else {
             mSurfaceView.setBackgroundColor(Color.TRANSPARENT);
         }
+        mSeekBar.setMax(mMediaPlayer.getDuration());
         if (mVideoHeight != 0 && mVideoWidth != 0) {
             if (mSeekPositionWhenPrepared > 0) {
                 seekTo(mSeekPositionWhenPrepared);
@@ -340,58 +508,124 @@ public class FloatPlayer implements SurfaceHolder.Callback,
         }
     }
 
+    /*MediaPlayer监听*/
+    //播放完毕
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
         Log.d(TAG, "onCompletion");
         onCompletion();
     }
 
-    public void onCompletion() {
-        setCurrentState(STATE_PLAYBACK_COMPLETED);
-        mTargetState = STATE_PLAYBACK_COMPLETED;
-        //updateBtnState();
-        mPosition = -1;
+
+    /*按钮点击监听*/
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.close_button:
+                closeWindow();
+                break;
+            case R.id.paly_pause_button:
+                if (mCurrentState == STATE_PLAYING) {
+                    pause();
+                } else {
+                    play();
+                }
+                break;
+        }
     }
 
+    /*SeekBar 滑动监听*/
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        Log.d(TAG, "i-->" + i);
+        if (getCurrentState() == STATE_SEEK_FLING) {
+            mMediaPlayer.seekTo(i);
+        }
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        seekFling();
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        int position = getPosition();
+        //Log.d(TAG, "position-->" + position);
+        if (mTargetState == STATE_PLAYING) {
+            seekTo(position);
+            play();
+        } else if (mTargetState == STATE_PAUSED) {
+            seekTo(position);
+            pause();
+        }
+    }
+
+    @Override
+    public void onSeekComplete(MediaPlayer mediaPlayer) {
+
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        if (motionEvent.getPointerCount() > 1) {
+            mScaleGestureDetector.onTouchEvent(motionEvent);
+            return true;
+        }
+        return mGestureDetector.onTouchEvent(motionEvent);
+    }
+
+    private boolean mSingleTapState = false;//单击状态
+
+    /*手势监听*/
     private class GestureListener implements GestureDetector.OnGestureListener {
 
         @Override
         public boolean onDown(MotionEvent motionEvent) {
-            Log.d(TAG, "onDown");
+            Log.d("GestureListener", "onDown");
             return false;
         }
 
         @Override
         public void onShowPress(MotionEvent motionEvent) {
-            Log.d(TAG, "onShowPress");
+            Log.d("GestureListener", "onShowPress");
 
         }
 
         @Override
         public boolean onSingleTapUp(MotionEvent motionEvent) {
-            Log.d(TAG, "onSingleTapUp");
-            return false;
+            Log.d("GestureListener", "onSingleTapUp");
+            Log.d("GestureListener", "mSingleTap-->" + mSingleTapState + ",mIsVisible-->" + mIsVisible);
+            if (mSingleTapState) {
+                mSingleTapState = false;
+                performUI();
+            } else {
+                mSingleTapState = true;
+                performUI();
+            }
+            return true;
         }
 
         @Override
         public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-            Log.d(TAG, "onScroll");
-            return false;
+            Log.d("GestureListener", "onScroll");
+            return true;
         }
 
         @Override
         public void onLongPress(MotionEvent motionEvent) {
-            Log.d(TAG, "onLongPress");
+            Log.d("GestureListener", "onLongPress");
 
         }
 
         @Override
         public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-            Log.d(TAG, "onFling");
+            Log.d("GestureListener", "onFling");
             return false;
         }
     }
 
+    /*放大缩小手势*/
     private class ScaleGestureListener implements ScaleGestureDetector.OnScaleGestureListener {
 
         @Override
@@ -410,6 +644,22 @@ public class FloatPlayer implements SurfaceHolder.Callback,
         public void onScaleEnd(ScaleGestureDetector scaleGestureDetector) {
             Log.d(TAG, "onScaleEnd");
 
+        }
+    }
+
+    private final class Seekhandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MEDIA_PLAY:
+                    mHandler.removeCallbacks(mPositionUpdate);
+                    mHandler.postDelayed(mPositionUpdate, 500);
+                    break;
+                case MEDIA_PAUSE:
+                    mHandler.removeCallbacks(mPositionUpdate);
+                    break;
+            }
         }
     }
 }

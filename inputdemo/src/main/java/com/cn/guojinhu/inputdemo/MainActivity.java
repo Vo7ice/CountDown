@@ -16,14 +16,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btn_start_float;
+    private Button btn_single_start_float, btn_multi_start_float, btn_net_start_float;
     private Intent floatIntent;
 
     private static final String[] FLOAT_WINDOW = {Manifest.permission.SYSTEM_ALERT_WINDOW};
 
     public static int OVERLAY_PERMISSION_REQ_CODE = 1234;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,20 +54,18 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN, PixelFormat.TRANSLUCENT);
         params.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;*/
 
-        btn_start_float = (Button) findViewById(R.id.start_float_window);
         floatIntent = new Intent(MainActivity.this, FloatPlayService.class);
-        btn_start_float.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //startFloatWindow();
-                checkForPermission();
-            }
-        });
+        btn_single_start_float = (Button) findViewById(R.id.single_start_float_window);
+        btn_single_start_float.setOnClickListener(this);
+        btn_multi_start_float = (Button) findViewById(R.id.multi_start_float_window);
+        btn_multi_start_float.setOnClickListener(this);
+        btn_net_start_float = (Button) findViewById(R.id.network_start_float_window);
+        btn_net_start_float.setOnClickListener(this);
     }
 
 
     private void startFloatWindow() {
-        Toast.makeText(MainActivity.this,"start...",Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, "start...", Toast.LENGTH_SHORT).show();
         floatIntent.setDataAndType(Uri.parse(Environment.getExternalStorageDirectory().getPath() + "/Movies/Demo.mp4"), "video/*");
         startService(floatIntent);
         finish();
@@ -117,5 +116,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View view) {
+        checkForPermission();
     }
 }

@@ -54,7 +54,6 @@ public class FloatPlayService extends Service {
     }
 
 
-
     @Override
     public void onDestroy() {
         if (null != mPlayer) {
