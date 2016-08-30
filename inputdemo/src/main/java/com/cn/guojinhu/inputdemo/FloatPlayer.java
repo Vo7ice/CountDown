@@ -67,6 +67,7 @@ public class FloatPlayer implements SurfaceHolder.Callback,
     private SeekBar mSeekBar;
     private ImageButton mCloseButton;
     private ImageButton mPlayPauseButton;
+    private ImageButton mBackToNormalButton;
 
     private int mPosition;
     private int mSeekPositionWhenPrepared;
@@ -286,9 +287,9 @@ public class FloatPlayer implements SurfaceHolder.Callback,
 
     private void updateBtnState() {
         if (mCurrentState == STATE_PLAYING) {
-            mPlayPauseButton.setImageResource(R.drawable.ic_pause_black_24dp);
+            mPlayPauseButton.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
         } else {
-            mPlayPauseButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+            mPlayPauseButton.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
         }
     }
 
@@ -318,6 +319,8 @@ public class FloatPlayer implements SurfaceHolder.Callback,
         mCloseButton.setOnClickListener(this);
         mPlayPauseButton = (ImageButton) mRootView.findViewById(R.id.paly_pause_button);
         mPlayPauseButton.setOnClickListener(this);
+        mBackToNormalButton = (ImageButton) mRootView.findViewById(R.id.back_normal_button);
+        mBackToNormalButton.setOnClickListener(this);
 
         mWm.addView(mRootView, mWmParams);
 
@@ -396,6 +399,7 @@ public class FloatPlayer implements SurfaceHolder.Callback,
                 float currentAlpha = (float) valueAnimator.getAnimatedValue();
                 mCloseButton.setAlpha(currentAlpha);
                 mPlayPauseButton.setAlpha(currentAlpha);
+                mBackToNormalButton.setAlpha(currentAlpha);
                 mSeekBar.setAlpha(currentAlpha);
             }
         });
@@ -416,10 +420,13 @@ public class FloatPlayer implements SurfaceHolder.Callback,
                 float currentAlpha = (float) valueAnimator.getAnimatedValue();
                 mCloseButton.setAlpha(currentAlpha);
                 mPlayPauseButton.setAlpha(currentAlpha);
+                mBackToNormalButton.setAlpha(currentAlpha);
                 mSeekBar.setAlpha(currentAlpha);
             }
         });
-        animator.start();
+        if (!mIsVisible) {
+            animator.start();
+        }
         mHandler.removeCallbacks(mStartHidingUI);
         //Log.d("Vo7ice", "mIsVisible," + mIsVisible);
         if (mCurrentState == STATE_PLAYING || mCurrentState == STATE_PAUSED && mIsVisible) {
@@ -437,6 +444,13 @@ public class FloatPlayer implements SurfaceHolder.Callback,
         } else {
             startFadeIn();
         }
+    }
+
+    /**
+     * 回到正常播放模式
+     */
+    private void backToNormal() {
+
     }
 
     /*SurfaceView监听*/
@@ -531,6 +545,9 @@ public class FloatPlayer implements SurfaceHolder.Callback,
                     play();
                 }
                 break;
+            case R.id.back_normal_button:
+                closeWindow();
+                break;
         }
     }
 
@@ -580,6 +597,8 @@ public class FloatPlayer implements SurfaceHolder.Callback,
     /*手势监听*/
     private class GestureListener implements GestureDetector.OnGestureListener {
 
+        final int FLING_MIN_DISTANCE = 100;
+
         @Override
         public boolean onDown(MotionEvent motionEvent) {
             Log.d("GestureListener", "onDown");
@@ -607,9 +626,16 @@ public class FloatPlayer implements SurfaceHolder.Callback,
         }
 
         @Override
-        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
             Log.d("GestureListener", "onScroll");
-            return true;
+            if (Math.abs(distanceY) > FLING_MIN_DISTANCE) {
+                mWmParams.x = (int) (e2.getRawX() - e1.getX());
+                //mWmParams.y = (int) (e2.getRawY() - e1.getY());
+                if (null != mRootView) {
+                    mWm.updateViewLayout(mRootView, mWmParams);
+                }
+            }
+            return false;
         }
 
         @Override
@@ -619,7 +645,7 @@ public class FloatPlayer implements SurfaceHolder.Callback,
         }
 
         @Override
-        public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             Log.d("GestureListener", "onFling");
             return false;
         }
