@@ -11,6 +11,8 @@ import com.cn.guojinhu.inputdemo.FloatPlayer;
 
 public class FloatPlayService extends Service {
 
+    private static final String TAG = "FloatPlayService";
+
     private FloatPlayer mPlayer = null;
 
     public FloatPlayService() {
@@ -56,6 +58,7 @@ public class FloatPlayService extends Service {
 
     @Override
     public void onDestroy() {
+        Log.d(TAG,"onDestroy");
         if (null != mPlayer) {
             mPlayer.removeFromWindow();
             mPlayer = null;
