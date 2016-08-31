@@ -5,6 +5,7 @@ import android.app.KeyguardManager;
 import android.app.Service;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -21,6 +22,7 @@ import android.view.ScaleGestureDetector;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.ImageButton;
@@ -73,10 +75,12 @@ public class FloatPlayer implements SurfaceHolder.Callback,
     private int mSeekPositionWhenPrepared;
 
     private int mStatusBarHeight;//状态栏高度
-    private int mSurfaceWidth;
-    private int mSurfaceHeight;
-    private int mVideoWidth;
-    private int mVideoHeight;
+    private int mSurfaceWidth;//surfaceView宽度
+    private int mSurfaceHeight;//surfaceView高度
+    private int mVideoWidth;//video宽度
+    private int mVideoHeight;//video高度
+    private int mWindowWidth;//屏幕宽度
+    private int mWindowHeight;//屏幕高度
 
     private int mCurrentState;
     private int mTargetState;
@@ -188,6 +192,7 @@ public class FloatPlayer implements SurfaceHolder.Callback,
         Log.d(TAG, "start seek fling,mTargetState-->" + mTargetState);
         if (isInPlaybackState()) {
             mMediaPlayer.pause();
+            mHandler.removeCallbacks(mPositionUpdate);//去除更新进度的线程 会导致系统崩溃
             setCurrentState(STATE_SEEK_FLING);
             updateBtnState();
         }
@@ -306,6 +311,9 @@ public class FloatPlayer implements SurfaceHolder.Callback,
         mWm = (WindowManager) mContext.getApplicationContext().getSystemService(
                 Context.WINDOW_SERVICE);
         mWmParams = createLayoutParams();
+        mDm = new DisplayMetrics();
+        mWm.getDefaultDisplay().getMetrics(mDm);
+        //Log.d("Vo7ice","mDm:"+mDm.toString());
 
         mRootView = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.float_window, null);
         mRootView.setOnTouchListener(this);
@@ -331,14 +339,14 @@ public class FloatPlayer implements SurfaceHolder.Callback,
     private LayoutParams createLayoutParams() {
         LayoutParams wmParams = new LayoutParams();
         wmParams.type = LayoutParams.TYPE_PHONE;//set type
-        wmParams.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
-                | LayoutParams.FLAG_NOT_FOCUSABLE | LayoutParams.FLAG_KEEP_SCREEN_ON;
-        wmParams.gravity = Gravity.START | Gravity.TOP;
-        wmParams.format = 1;
+        wmParams.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL | LayoutParams.FLAG_NOT_FOCUSABLE
+                | LayoutParams.FLAG_KEEP_SCREEN_ON;
+        //wmParams.gravity = Gravity.CENTER;
+        wmParams.format = PixelFormat.RGBA_8888;
         wmParams.x = 0;
         wmParams.y = 0;
-        wmParams.width = LayoutParams.MATCH_PARENT;
-        wmParams.height = 300;
+        wmParams.width = 200;
+        wmParams.height = 150;
         return wmParams;
     }
 
@@ -453,6 +461,18 @@ public class FloatPlayer implements SurfaceHolder.Callback,
 
     }
 
+    private void reSize() {
+        if (null != mMediaPlayer && null != mRootView) {
+            mWindowWidth = mDm.widthPixels;
+            mWindowHeight = mDm.heightPixels;
+            int targetWidth = mVideoWidth;
+            int targetHeight = mVideoHeight;
+            float widthRate = (float) mWindowWidth / mVideoWidth;//屏幕视频宽度比
+            float heightRate = (float) mWindowHeight / mVideoHeight;//屏幕视频高度比
+            float videoRate = (float) mVideoHeight/mVideoWidth;//视频宽高比
+        }
+    }
+
     /*SurfaceView监听*/
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
@@ -510,6 +530,7 @@ public class FloatPlayer implements SurfaceHolder.Callback,
         } else {
             mSurfaceView.setBackgroundColor(Color.TRANSPARENT);
         }
+        //mSurfaceHolder.setFixedSize(mVideoWidth, mVideoHeight);
         mSeekBar.setMax(mMediaPlayer.getDuration());
         if (mVideoHeight != 0 && mVideoWidth != 0) {
             if (mSeekPositionWhenPrepared > 0) {
@@ -554,7 +575,7 @@ public class FloatPlayer implements SurfaceHolder.Callback,
     /*SeekBar 滑动监听*/
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        Log.d(TAG, "i-->" + i);
+        //Log.d(TAG, "i-->" + i);
         if (getCurrentState() == STATE_SEEK_FLING) {
             mMediaPlayer.seekTo(i);
         }
@@ -597,7 +618,7 @@ public class FloatPlayer implements SurfaceHolder.Callback,
     /*手势监听*/
     private class GestureListener implements GestureDetector.OnGestureListener {
 
-        final int FLING_MIN_DISTANCE = 100;
+        final int FLING_MIN_DISTANCE = 100;//应该为像素
 
         @Override
         public boolean onDown(MotionEvent motionEvent) {
@@ -627,14 +648,14 @@ public class FloatPlayer implements SurfaceHolder.Callback,
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            Log.d("GestureListener", "onScroll");
-            if (Math.abs(distanceY) > FLING_MIN_DISTANCE) {
-                mWmParams.x = (int) (e2.getRawX() - e1.getX());
-                //mWmParams.y = (int) (e2.getRawY() - e1.getY());
-                if (null != mRootView) {
-                    mWm.updateViewLayout(mRootView, mWmParams);
-                }
+            Log.d("GestureListener", "onScroll-->" + Math.abs(distanceY));
+            //if (Math.abs(distanceY) > FLING_MIN_DISTANCE) {
+            mWmParams.x = (int) (e2.getRawX() - e1.getRawX());
+            mWmParams.y = (int) (e2.getRawY() - e1.getRawY());
+            if (null != mRootView) {
+                mWm.updateViewLayout(mRootView, mWmParams);
             }
+            //}
             return false;
         }
 
@@ -657,12 +678,15 @@ public class FloatPlayer implements SurfaceHolder.Callback,
         @Override
         public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
             Log.d(TAG, "onScale");
+            float scale = scaleGestureDetector.getScaleFactor();
+
             return false;
         }
 
         @Override
         public boolean onScaleBegin(ScaleGestureDetector scaleGestureDetector) {
             Log.d(TAG, "onScaleBegin");
+
             return false;
         }
 
