@@ -1,4 +1,4 @@
-package com.cn.guojinhu.systemwidget;
+package com.cn.guojinhu.systemwidget.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.cn.guojinhu.systemwidget.R;
+import com.cn.guojinhu.systemwidget.view.TopBar;
 
 public class MainActivity extends AppCompatActivity implements TopBar.OnTopBarClickListener {
 

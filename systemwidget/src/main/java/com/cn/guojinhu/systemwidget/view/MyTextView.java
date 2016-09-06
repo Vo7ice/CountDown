@@ -1,4 +1,4 @@
-package com.cn.guojinhu.systemwidget;
+package com.cn.guojinhu.systemwidget.view;
 
 
 import android.content.Context;
@@ -7,6 +7,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.widget.TextView;
+
+import com.cn.guojinhu.systemwidget.R;
 
 public class MyTextView extends TextView{
 
@@ -32,7 +34,7 @@ public class MyTextView extends TextView{
 
     public MyTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        TypedArray ty = context.obtainStyledAttributes(attrs,R.styleable.MyTextView);
+        TypedArray ty = context.obtainStyledAttributes(attrs, R.styleable.MyTextView);
         mStoke = ty.getDimension(R.styleable.MyTextView_stoke, 1.5f);
         mOutlineColor = ty.getColor(R.styleable.MyTextView_outlineColor, def_outlineColor);
         mInlineColor = ty.getColor(R.styleable.MyTextView_inlineColor, def_inlineColor);

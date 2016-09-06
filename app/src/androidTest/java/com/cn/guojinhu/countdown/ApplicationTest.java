@@ -1,4 +1,4 @@
-﻿package com.cn.guojinhu.countdown;
+package com.cn.guojinhu.countdown;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
