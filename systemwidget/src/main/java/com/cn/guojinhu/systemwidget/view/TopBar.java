@@ -1,4 +1,4 @@
-package com.cn.guojinhu.systemwidget;
+package com.cn.guojinhu.systemwidget.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.cn.guojinhu.systemwidget.R;
 
 public class TopBar extends RelativeLayout {
 
@@ -59,7 +61,7 @@ public class TopBar extends RelativeLayout {
         super(context, attrs);
         setBackgroundColor(0xFFF59563);
         //配置属性
-        TypedArray ty = context.obtainStyledAttributes(attrs,R.styleable.TopBar);
+        TypedArray ty = context.obtainStyledAttributes(attrs, R.styleable.TopBar);
         titleText = ty.getString(R.styleable.TopBar_titleText);
         leftText = ty.getString(R.styleable.TopBar_leftText);
         rightText = ty.getString(R.styleable.TopBar_rightText);
@@ -171,7 +173,7 @@ public class TopBar extends RelativeLayout {
         mListener = listener;
     }
 
-    interface OnTopBarClickListener {
+    public interface OnTopBarClickListener {
         void onLeftButtonClick(View v);
 
         void onRightButtonClick(View v);

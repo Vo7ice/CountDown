@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <declare-styleable name="TopBar">
         <!-- left button-->
-        <attr name="leftTextColor" format="color"/>
-        <attr name="leftText" format="string"/>
-        <attr name="leftBackground" format="reference|color"/>
+        <attr name="leftTextColor" format="color" />
+        <attr name="leftText" format="string" />
+        <attr name="leftBackground" format="reference|color" />
 
         <!-- right button-->
         <attr name="rightTextColor" format="color" />
-        <attr name="rightText" format="string"/>
-        <attr name="rightBackground" format="reference|color"/>
+        <attr name="rightText" format="string" />
+        <attr name="rightBackground" format="reference|color" />
 
         <!-- text view-->
-        <attr name="titleText" format="string"/>
-        <attr name="titleTextSize" format="dimension"/>
-        <attr name="titleTextColors" format="color"/>
+        <attr name="titleText" format="string" />
+        <attr name="titleTextSize" format="dimension" />
+        <attr name="titleTextColors" format="color" />
 
-        <attr name="titleTextColora" format="color"/>
-        <attr name="titles" format="string"/>
+        <attr name="titleTextColora" format="color" />
+        <attr name="titles" format="string" />
 
     </declare-styleable>
 
     <declare-styleable name="MyTextView">
 
         <!-- 外部矩形颜色-->
-        <attr name="outlineColor" format="color"/>
+        <attr name="outlineColor" format="color" />
 
         <!-- 内部矩形颜色-->
-        <attr name="inlineColor" format="color"/>
+        <attr name="inlineColor" format="color" />
 
         <!-- 边距-->
-        <attr name="stoke" format="dimension"/>
+        <attr name="stoke" format="dimension" />
 
 
     </declare-styleable>
@@ -38,7 +39,34 @@
     <declare-styleable name="TriGraph">
 
         <!-- 间距-->
-        <attr name="gap" format="dimension"/>
+        <attr name="gap" format="dimension" />
 
     </declare-styleable>
+
+
+
+    <declare-styleable name="CustomTitleView">
+        <attr name="customTitleText" format="string"/>
+
+        <attr name="customTitleTextSize" format="dimension"/>
+
+        <attr name="customTitleTextColor"  format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="CustomImageView">
+        <attr name="customImageText" format="string" />
+
+        <attr name="customImageTextSize" format="dimension"/>
+
+        <attr name="customImageTextColor" format="color"/>
+
+        <attr name="customImage" format="reference"/>
+
+        <attr name="customImageScaleType">
+            <enum name="fillXY" value="0" />
+            <enum name="center" value="1" />
+        </attr>
+
+    </declare-styleable>
+
 </resources>

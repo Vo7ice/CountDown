@@ -1,7 +1,9 @@
-package com.cn.guojinhu.systemwidget;
+package com.cn.guojinhu.systemwidget.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.cn.guojinhu.systemwidget.R;
 
 public class ScrollActivity extends AppCompatActivity {
 

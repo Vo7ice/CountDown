@@ -1,4 +1,4 @@
-package com.cn.guojinhu.systemwidget;
+package com.cn.guojinhu.systemwidget.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -6,6 +6,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+
+import com.cn.guojinhu.systemwidget.view.KeyguardView;
+import com.cn.guojinhu.systemwidget.R;
 
 public class TestActivity extends AppCompatActivity {
 
@@ -27,8 +30,8 @@ public class TestActivity extends AppCompatActivity {
             }
         });
 
-        mView = (KeyguardView) findViewById(R.id.keyguard);
-        mView.setCircleRadius(200f);
+        /*mView = (KeyguardView) findViewById(R.id.keyguard);
+        mView.setCircleRadius(200f);*/
 
     }
 

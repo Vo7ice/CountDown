@@ -1,4 +1,4 @@
-package com.cn.guojinhu.systemwidget;
+package com.cn.guojinhu.systemwidget.view;
 
 
 import android.content.Context;
