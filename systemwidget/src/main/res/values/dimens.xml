@@ -13,4 +13,6 @@
     <dimen name="circle_radius">25dp</dimen>
 
     <dimen name="text_size">16sp</dimen>
+
+    <dimen name="ring_width">10dp</dimen>
 </resources>

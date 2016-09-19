@@ -44,23 +44,22 @@
     </declare-styleable>
 
 
-
     <declare-styleable name="CustomTitleView">
-        <attr name="customTitleText" format="string"/>
+        <attr name="customTitleText" format="string" />
 
-        <attr name="customTitleTextSize" format="dimension"/>
+        <attr name="customTitleTextSize" format="dimension" />
 
-        <attr name="customTitleTextColor"  format="color"/>
+        <attr name="customTitleTextColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="CustomImageView">
         <attr name="customImageText" format="string" />
 
-        <attr name="customImageTextSize" format="dimension"/>
+        <attr name="customImageTextSize" format="dimension" />
 
-        <attr name="customImageTextColor" format="color"/>
+        <attr name="customImageTextColor" format="color" />
 
-        <attr name="customImage" format="reference"/>
+        <attr name="customImage" format="reference" />
 
         <attr name="customImageScaleType">
             <enum name="fillXY" value="0" />
@@ -68,5 +67,16 @@
         </attr>
 
     </declare-styleable>
+
+    <declare-styleable name="CustomVolumeView">
+        <attr name="hintColor" format="color" />
+        <attr name="bgColor" format="color" />
+
+        <attr name="dotCount" format="integer" />
+        <attr name="ringWidth" format="dimension" />
+        <attr name="splitSize" format="integer" />
+        <attr name="bg" format="reference" />
+    </declare-styleable>
+
 
 </resources>

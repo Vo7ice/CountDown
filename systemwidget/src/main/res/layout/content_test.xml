@@ -29,7 +29,39 @@
         custom:customTitleTextSize="40sp"
         android:padding="10dp"
         />-->
-    <com.cn.guojinhu.systemwidget.view.CustomImageView
+
+    <Button
+        android:id="@+id/button_custom_title_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="10dp"
+        android:text="打开CustomTitleView" />
+
+    <Button
+        android:id="@+id/button_custom_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="10dp"
+        android:text="打开CustomImageView" />
+
+    <Button
+        android:id="@+id/button_custom_volume_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="10dp"
+        android:text="打开CustomVolumeView" />
+    <Button
+        android:id="@+id/button_webview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="10dp"
+        android:text="打开WebView" />
+
+    <!--<com.cn.guojinhu.systemwidget.view.CustomImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -60,6 +92,6 @@
         app:customImageScaleType="center"
         app:customImageText="loading"
         app:customImageTextColor="#ff0000"
-        app:customImageTextSize="20sp" />
+        app:customImageTextSize="20sp" />-->
 
 </LinearLayout>
