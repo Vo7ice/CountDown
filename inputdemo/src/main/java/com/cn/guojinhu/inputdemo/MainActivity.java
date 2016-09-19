@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void startFloatWindow() {
         Toast.makeText(MainActivity.this, "start...", Toast.LENGTH_SHORT).show();
         floatIntent.setDataAndType(Uri.parse(Environment.getExternalStorageDirectory().getPath() + "/Movies/Demo.mp4"), "video/*");
+        floatIntent.putExtra("position",0);
         startService(floatIntent);
         finish();
     }

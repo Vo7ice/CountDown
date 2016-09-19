@@ -38,8 +38,12 @@ public class FloatPlayService extends Service {
             Uri data = intent.getData();
             String type = intent.getType();
             Log.d("Vo7ice", "data ==" + data.getPath());
+            int position = intent.getIntExtra("position", 0);
             createFloatWindow();
             mPlayer.setVideoUri(data);
+            if (position > 0){
+                mPlayer.seekTo(position);
+            }
             mPlayer.play();
         }
 
