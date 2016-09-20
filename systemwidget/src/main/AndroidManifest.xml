@@ -27,7 +27,8 @@
         <activity android:name=".activity.CustomTitleActivity" />
         <activity android:name=".activity.CustomImageActivity" />
         <activity android:name=".activity.CustomVolumeActivity" />
-        <activity android:name=".activity.WebViewActivity"></activity>
+        <activity android:name=".activity.WebViewActivity" />
+        <activity android:name=".activity.WinXActivity"></activity>
     </application>
 
 </manifest>

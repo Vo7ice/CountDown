@@ -67,6 +67,13 @@ public class TestActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        findViewById(R.id.button_win_x).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TestActivity.this, WinXActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

@@ -95,7 +95,7 @@ public class FloatPlayer implements SurfaceHolder.Callback,
     private final Runnable mPositionUpdate;
     private final Runnable mStartHidingUI;
 
-    AudioManager.OnAudioFocusChangeListener afChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+    private AudioManager.OnAudioFocusChangeListener afChangeListener = new AudioManager.OnAudioFocusChangeListener() {
         public void onAudioFocusChange(int focusChange) {
             Log.d(TAG, "focusChange:" + focusChange);
             switch (focusChange) {
@@ -345,7 +345,7 @@ public class FloatPlayer implements SurfaceHolder.Callback,
         wmParams.format = PixelFormat.RGBA_8888;
         wmParams.x = 0;
         wmParams.y = 0;
-        wmParams.width = 200;
+        wmParams.width = LayoutParams.MATCH_PARENT;
         wmParams.height = 150;
         return wmParams;
     }
