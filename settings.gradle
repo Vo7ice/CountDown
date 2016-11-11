@@ -1,1 +1,1 @@
-include ':app', ':notificationdemo', ':systemwidget', ':game2048', ':inputdemo'
+include ':app', ':notificationdemo', ':systemwidget', ':game2048', ':floatplayerdemo', ':rippledemo'

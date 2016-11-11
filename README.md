@@ -23,11 +23,16 @@
 
 ----------
 
-# InputDemo
+# FloatPlayerDemo
 输入法问题
 视频悬浮框
   - TODO
     - [X] 播放 暂停 快进 快退
     - [ ] 放大 缩小 
     - [X] 移动
+----------
+
+# RippleDemo
+- [PropertyValuesHolder的使用](http://blog.csdn.net/qq_33689414/article/details/51255543)
+- [AnimatorSeth和AnimatorListener](http://blog.csdn.net/new_abc/article/details/40143091)
 
