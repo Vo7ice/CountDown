@@ -23,6 +23,18 @@
 
 ----------
 
+# RippleDemo
+  -`getResource.getDrawable` , `getResource.getColor` 过时的替代方法
+    1. `ContextCompat.getColor(Context context, @ColorRes int id)`
+    2. `ContextCompat.getDrawable(Context context, @DrawableRes int id)`
+
+  - [getViewTreeObserver用法](http://blog.csdn.net/swust_chenpeng/article/details/11807477)
+
+  - TODO
+      - [ ] 夜间模式
+      - [ ] 全屏模式
+----------
+
 # FloatPlayerDemo
 输入法问题
 视频悬浮框

@@ -8,7 +8,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -50,8 +51,8 @@ public class RippleLayout extends View {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public void setBackgroundColor(@ColorInt int color) {
-        mPaint.setColor(color);
+    public void setBackgroundColor(@ColorRes int color) {
+        mPaint.setColor(ContextCompat.getColor(getContext(), color));
     }
 
     public void setDuration(int duration) {
@@ -86,7 +87,7 @@ public class RippleLayout extends View {
         this.mPoint = point;
     }
 
-    public void setonStateChangeListener(OnStateChangeListener listener) {
+    public void setOnStateChangeListener(OnStateChangeListener listener) {
         this.mListener = listener;
     }
 
@@ -210,7 +211,7 @@ public class RippleLayout extends View {
         }
     }
 
-    interface OnStateChangeListener {
+    public interface OnStateChangeListener {
         void onOpened();
 
         void onClosed();
