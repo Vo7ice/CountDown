@@ -30,6 +30,10 @@
 
   - [getViewTreeObserver用法](http://blog.csdn.net/swust_chenpeng/article/details/11807477)
 
+  - [自定义控件三部曲之动画篇（二）——Interpolator插值器](http://blog.csdn.net/harvic880925/article/details/40049763)
+
+  - [Animation动画详解](http://blog.csdn.net/column/details/harvic2animation.html)
+
   - TODO
       - [ ] 夜间模式
       - [ ] 全屏模式
