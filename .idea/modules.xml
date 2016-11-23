@@ -3,10 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CountDown.iml" filepath="$PROJECT_DIR$/CountDown.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/countdown/countdown.iml" filepath="$PROJECT_DIR$/countdown/countdown.iml" />
       <module fileurl="file://$PROJECT_DIR$/floatplayerdemo/floatplayerdemo.iml" filepath="$PROJECT_DIR$/floatplayerdemo/floatplayerdemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/game2048/game2048.iml" filepath="$PROJECT_DIR$/game2048/game2048.iml" />
       <module fileurl="file://$PROJECT_DIR$/notificationdemo/notificationdemo.iml" filepath="$PROJECT_DIR$/notificationdemo/notificationdemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/qrphase/qrphase.iml" filepath="$PROJECT_DIR$/qrphase/qrphase.iml" />
       <module fileurl="file://$PROJECT_DIR$/rippledemo/rippledemo.iml" filepath="$PROJECT_DIR$/rippledemo/rippledemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/systemwidget/systemwidget.iml" filepath="$PROJECT_DIR$/systemwidget/systemwidget.iml" />
     </modules>

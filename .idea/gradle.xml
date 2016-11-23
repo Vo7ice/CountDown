@@ -9,10 +9,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/countdown" />
             <option value="$PROJECT_DIR$/floatplayerdemo" />
             <option value="$PROJECT_DIR$/game2048" />
             <option value="$PROJECT_DIR$/notificationdemo" />
+            <option value="$PROJECT_DIR$/qrphase" />
             <option value="$PROJECT_DIR$/rippledemo" />
             <option value="$PROJECT_DIR$/systemwidget" />
           </set>
