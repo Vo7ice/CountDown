@@ -11,11 +11,12 @@ import abe.no.seimei.qrphase.R;
 
 public class ResultActivity extends AppCompatActivity {
 
-    private static final String KEY_RESULT_TYPE = "KEY_RESULT_TYPE";
+    public static final String KEY_RESULT_TYPE = "KEY_RESULT_TYPE";
+    public static final String KEY_RESULT = "KEY_RESULT";
 
-    private static final int NORMAL = 0;
-    private static final int URL = 1;
-    private static final int CONTACT = 2;
+    public static final int NORMAL = 0;
+    public static final int URL = 1;
+    public static final int CONTACT = 2;
 
     private static int DEFAULT = NORMAL;
     /*mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
@@ -37,7 +38,7 @@ public class ResultActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
         decorView.setSystemUiVisibility(uiOptions);
         setContentView(R.layout.activity_result);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_result);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
     }
@@ -45,17 +46,27 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        int type = getIntent().getIntExtra(KEY_RESULT_TYPE, DEFAULT);
-        replaceContent(getSupportFragmentManager(), type);
+        Bundle bundle = getIntent().getExtras();
+
+        replaceContent(getSupportFragmentManager(), bundle);
     }
 
-    private void replaceContent(FragmentManager fragmentManager, int type) {
-        switch (type) {
+    private void replaceContent(FragmentManager fragmentManager, Bundle bundle) {
+        int type = bundle.getInt(KEY_RESULT_TYPE, DEFAULT);
 
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        switch (type) {
             default:
             case NORMAL:
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                ft.replace(R.id.fragment, NormalResultFragment.newInstance(null), NormalResultFragment.class.getSimpleName());
+                ft.replace(R.id.fragment, NormalResultFragment.newInstance(bundle), NormalResultFragment.class.getSimpleName());
+                ft.commit();
+                break;
+            case URL:
+                ft.replace(R.id.fragment, UrlResultFragment.newInstance(bundle), UrlResultFragment.class.getSimpleName());
+                ft.commit();
+                break;
+            case CONTACT:
+                ft.replace(R.id.fragment, ContactResultFragment.newInstance(bundle), ContactResultFragment.class.getSimpleName());
                 ft.commit();
                 break;
         }

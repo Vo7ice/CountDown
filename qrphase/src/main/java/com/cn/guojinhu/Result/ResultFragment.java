@@ -1,5 +1,7 @@
 package com.cn.guojinhu.Result;
 
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,22 +17,35 @@ public abstract class ResultFragment extends Fragment implements View.OnClickLis
 
     protected Button mConfirmButton;
     protected TextView mTextInfo;
+    protected ClipboardManager mClipboardManager;
+    protected Context mContext;
 
     public ResultFragment() {
 
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+        mClipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView;
-        rootView = inflater.inflate(getLayoutResId(), container, false);
+        View rootView = inflater.inflate(getLayoutResId(), container, false);
         mConfirmButton = (Button) rootView.findViewById(R.id.button_confirm);
         mTextInfo = (TextView) rootView.findViewById(R.id.text_info);
-        mConfirmButton.setOnClickListener(this);
         initConfirmButton();
         initInfoText();
+        iniSpecialLayout(rootView);
+        mConfirmButton.setOnClickListener(this);
         return rootView;
+    }
+
+    protected void iniSpecialLayout(View view) {
+
     }
 
 

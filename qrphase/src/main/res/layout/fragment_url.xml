@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="15dp"
-        android:text="文本:"
+        android:text="网址:"
         android:textSize="18sp"/>
 
     <TextView
@@ -18,8 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="35dp"
-        android:text="文本:"
         android:gravity="center_horizontal"
+        android:text="文本:"
         android:textSize="22sp"/>
 
     <include layout="@layout/layout_info"/>

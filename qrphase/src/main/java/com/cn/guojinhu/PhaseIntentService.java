@@ -1,8 +1,19 @@
 package com.cn.guojinhu;
 
 import android.app.IntentService;
-import android.content.Intent;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Patterns;
+import android.widget.Toast;
+
+import com.cn.guojinhu.Result.ResultActivity;
+
+import static com.cn.guojinhu.Result.ResultActivity.CONTACT;
+import static com.cn.guojinhu.Result.ResultActivity.KEY_RESULT;
+import static com.cn.guojinhu.Result.ResultActivity.KEY_RESULT_TYPE;
+import static com.cn.guojinhu.Result.ResultActivity.NORMAL;
+import static com.cn.guojinhu.Result.ResultActivity.URL;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -16,13 +27,14 @@ public class PhaseIntentService extends IntentService {
     // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
     private static final String ACTION_FOO = "com.cn.guojinhu.action.FOO";
     private static final String ACTION_BAZ = "com.cn.guojinhu.action.BAZ";
-    private static final String ACTION_NORMAL = "com.cn.guojinhu.action.CODE_NORMAL";
-    private static final String ACTION_URL = "com.cn.guojinhu.action.CODE_URL";
-    private static final String ACTION_CONTACT = "com.cn.guojinhu.action.CODE_CONTACT";
+    private static final String ACTION_PHASE = "com.cn.guojinhu.action.PHASE";
 
     // TODO: Rename parameters
     private static final String EXTRA_PARAM1 = "com.cn.guojinhu.extra.PARAM1";
     private static final String EXTRA_PARAM2 = "com.cn.guojinhu.extra.PARAM2";
+    private static final String EXTRA_CONTENT = "com.cn.guojinhu.extra.CONTENT";
+
+    private Context mContext;
 
     public PhaseIntentService() {
         super("PhaseIntentService");
@@ -40,6 +52,13 @@ public class PhaseIntentService extends IntentService {
         intent.setAction(ACTION_FOO);
         intent.putExtra(EXTRA_PARAM1, param1);
         intent.putExtra(EXTRA_PARAM2, param2);
+        context.startService(intent);
+    }
+
+    public static void startActionPhase(Context context,String content) {
+        Intent intent = new Intent(context,PhaseIntentService.class);
+        intent.setAction(ACTION_PHASE);
+        intent.putExtra(EXTRA_CONTENT,content);
         context.startService(intent);
     }
 
@@ -70,8 +89,31 @@ public class PhaseIntentService extends IntentService {
                 final String param1 = intent.getStringExtra(EXTRA_PARAM1);
                 final String param2 = intent.getStringExtra(EXTRA_PARAM2);
                 handleActionBaz(param1, param2);
+            } else if(ACTION_PHASE.equals(action)) {
+                final String content = intent.getStringExtra(EXTRA_CONTENT);
+                handleActionPhase(content);
             }
         }
+    }
+
+    private void handleActionPhase(String content) {
+        Intent intent = new Intent(PhaseIntentService.this, ResultActivity.class);
+        Bundle bundle = new Bundle();
+        boolean matches = Patterns.WEB_URL.matcher(content).matches();
+        if (content.startsWith("BEGIN:VCARD")){
+            Toast.makeText(PhaseIntentService.this,"contact",Toast.LENGTH_SHORT).show();
+            bundle.putString(KEY_RESULT,content);
+            bundle.putInt(KEY_RESULT_TYPE,CONTACT);
+        }else if (matches){
+            bundle.putString(KEY_RESULT,content);
+            bundle.putInt(KEY_RESULT_TYPE,URL);
+        }else{
+            bundle.putString(KEY_RESULT,content);
+            bundle.putInt(KEY_RESULT_TYPE,NORMAL);
+        }
+        intent.putExtras(bundle);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        PhaseIntentService.this.startActivity(intent);
     }
 
     /**

@@ -1,5 +1,7 @@
 package com.cn.guojinhu.Result;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -9,17 +11,16 @@ import abe.no.seimei.qrphase.R;
 
 import static com.cn.guojinhu.Result.ResultActivity.KEY_RESULT;
 
-
 /**
- * Created by guojin.hu on 2016/11/23.
+ * Created by guojin.hu on 2016/11/24.
  */
 
-public class NormalResultFragment extends ResultFragment {
+public class UrlResultFragment extends ResultFragment {
 
     private Bundle mBundle;
 
-    public static NormalResultFragment newInstance(Bundle bundle) {
-        NormalResultFragment fragment = new NormalResultFragment();
+    public static UrlResultFragment newInstance(Bundle bundle) {
+        UrlResultFragment fragment = new UrlResultFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -41,21 +42,26 @@ public class NormalResultFragment extends ResultFragment {
 
     @Override
     protected void initInfoText() {
-        mTextInfo.setVisibility(View.VISIBLE);
+        mTextInfo.setVisibility(View.GONE);
     }
 
     @Override
     protected void initConfirmButton() {
-        mConfirmButton.setText("复制文本");
-    }
-
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.fragment_normal;
+        mConfirmButton.setText("浏览一下网址");
     }
 
     @Override
     protected void confirmResult() {
-//        mClipboardManager.setPrimaryClip(ClipData.newPlainText("text",));
+        String content = mBundle.getString(KEY_RESULT);
+        Intent intent = new Intent();
+        Uri uri = Uri.parse(content);
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setData(uri);
+        mContext.startActivity(intent);
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.fragment_url;
     }
 }
