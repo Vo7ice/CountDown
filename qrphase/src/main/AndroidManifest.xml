@@ -28,6 +28,11 @@
             android:name="com.cn.guojinhu.Result.ResultActivity"
             android:label="@string/qr_info"
             android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.qrcode.PHASE"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
     </application>
 

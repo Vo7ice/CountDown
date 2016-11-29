@@ -2,6 +2,7 @@ package com.cn.guojinhu.Result;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -36,6 +37,7 @@ public class NormalResultFragment extends ResultFragment {
     protected void iniSpecialLayout(View view) {
         TextView textResult = (TextView) view.findViewById(R.id.text_result);
         String result = mBundle.getString(KEY_RESULT);
+        Log.d("Vo7ice", "result:" + result);
         textResult.setText(result);
     }
 

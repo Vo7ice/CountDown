@@ -54,6 +54,11 @@ public class ResultActivity extends AppCompatActivity {
     private void replaceContent(FragmentManager fragmentManager, Bundle bundle) {
         int type = bundle.getInt(KEY_RESULT_TYPE, DEFAULT);
 
+        try {
+            ResultWrapper wrapper = (ResultWrapper) bundle.getSerializable(KEY_RESULT);
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
         FragmentTransaction ft = fragmentManager.beginTransaction();
         switch (type) {
             default:
