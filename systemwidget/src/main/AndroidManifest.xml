@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cn.guojinhu.systemwidget">
+          package="com.cn.guojinhu.systemwidget">
 
     <application
         android:allowBackup="true"
@@ -14,21 +14,23 @@
             android:launchMode="singleInstance"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ScrollActivity" />
+        <activity android:name=".activity.ScrollActivity"/>
         <activity
             android:name=".activity.TestActivity"
             android:label="@string/title_activity_test"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.CustomTitleActivity" />
-        <activity android:name=".activity.CustomImageActivity" />
-        <activity android:name=".activity.CustomVolumeActivity" />
-        <activity android:name=".activity.WebViewActivity" />
-        <activity android:name=".activity.WinXActivity"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.CustomTitleActivity"/>
+        <activity android:name=".activity.CustomImageActivity"/>
+        <activity android:name=".activity.CustomVolumeActivity"/>
+        <activity android:name=".activity.WebViewActivity"/>
+        <activity android:name=".activity.WinXActivity"/>
+        <activity android:name=".activity.MiSportsActivity">
+        </activity>
     </application>
 
 </manifest>

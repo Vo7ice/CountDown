@@ -9,11 +9,11 @@ import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 /**
  * Created by guojin.hu on 2016/9/20.
+ * url:http://blog.csdn.net/zhangml0522/article/details/52556418
  */
 
 public class WinXLoadingView extends View {

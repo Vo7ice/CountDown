@@ -74,6 +74,13 @@ public class TestActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        findViewById(R.id.button_mi_sports).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TestActivity.this, WinXActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

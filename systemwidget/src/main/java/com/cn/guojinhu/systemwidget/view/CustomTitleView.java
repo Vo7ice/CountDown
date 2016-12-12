@@ -6,15 +6,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.support.annotation.ColorRes;
-import android.support.annotation.StringRes;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
 import com.cn.guojinhu.systemwidget.R;
-
-import static android.R.attr.value;
 
 /**
  * Created by guojin.hu on 2016/9/6.

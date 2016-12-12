@@ -78,5 +78,12 @@
         <attr name="bg" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="MiSportsView">
+        <attr name="arc_radius" format="dimension"/>
+        <attr name="arc_color" format="color"/>
+        <attr name="dot_radius" format="dimension"/>
+        <attr name="dot_color" format="color"/>
+    </declare-styleable>
+
 
 </resources>

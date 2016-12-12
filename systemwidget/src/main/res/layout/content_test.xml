@@ -67,6 +67,14 @@
         android:layout_margin="5dp"
         android:padding="10dp"
         android:text="打开WinXLoadingView" />
+    <Button
+        android:id="@+id/button_mi_sports"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="10dp"
+        android:text="打开MiSportsView" />
+
 
     <!--<com.cn.guojinhu.systemwidget.view.CustomImageView
         android:layout_width="wrap_content"
